@@ -1,201 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-
-<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>MedNova</title>
-
+<title>Doctor App</title>
 <link rel="stylesheet" href="style.css">
-
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
 </head>
 
 <body>
 
 <div class="app">
 
-<!-- HEADER -->
+  <!-- HEADER -->
+  <div class="header">
+    <div>
+      <h2>📍 Home</h2>
+      <p>Kavuru, Andhra Pradesh</p>
+    </div>
+    <div class="gear" onclick="toggleSettings()">⚙️</div>
 
-<div class="header">
+    <div class="settings" id="settings">
+      <p>🔔 Notifications</p>
+      <p>🌙 Dark Mode</p>
+      <p>📍 Location</p>
+      <p>🔒 Privacy</p>
+      <hr>
+      <p>🩺 Medical Records</p>
+      <p>❓ Help</p>
+      <hr>
+      <p class="logout">Logout</p>
+    </div>
+  </div>
 
-<div>
-<h2>📍 Home</h2>
-<p>Kavuru, Andhra Pradesh</p>
-</div>
+  <!-- SEARCH -->
+  <input class="search" placeholder="Search doctors">
 
-<div class="settings" onclick="toggleSettings()">
-<span class="material-icons">settings</span>
-</div>
+  <!-- BANNER -->
+  <div class="banner">
+    <h2>Find Best Doctors</h2>
+    <p>Book appointments instantly</p>
+    <button>Explore Now</button>
+  </div>
 
-</div>
+  <!-- SPECIALITIES -->
+  <div class="specialities">
 
+    <div onclick="showDoctors('Dentist')">
+      <img src="images/dentist.jpg">
+      <p>Dentist</p>
+    </div>
 
+    <div onclick="showDoctors('Dermatologist')">
+      <img src="images/dermatologist.jpg">
+      <p>Dermatologist</p>
+    </div>
 
-<!-- SETTINGS MENU -->
+    <div onclick="showDoctors('Cardiologist')">
+      <img src="images/cardiologist.jpg">
+      <p>Cardiologist</p>
+    </div>
 
-<div class="settings-menu" id="settingsMenu">
+    <div onclick="showDoctors('Neurologist')">
+      <img src="images/neurologist.jpg">
+      <p>Neurologist</p>
+    </div>
 
-<div class="menu-item">🔔 Notifications</div>
-<div class="menu-item">🌙 Dark Mode</div>
-<div class="menu-item">📍 Location</div>
-<div class="menu-item">🔒 Privacy</div>
-<div class="menu-item logout">Logout</div>
+  </div>
 
-</div>
-
-
-
-<!-- SEARCH -->
-
-<div class="search">
-<input type="text" placeholder="Search doctors">
-</div>
-
-
-
-<!-- BANNER -->
-
-<div class="banner">
-
-<h1>Find Best Doctors</h1>
-<p>Book appointments instantly</p>
-
-<button>Explore Now</button>
-
-</div>
-
-
-
-<!-- SPECIALIZATION -->
-
-<div class="categories">
-
-<div class="cat">
-<img src="images/dentist.jpg">
-<p>Dentist</p>
-</div>
-
-<div class="cat">
-<img src="images/dermatologist.jpg">
-<p>Dermatologist</p>
-</div>
-
-<div class="cat">
-<img src="images/cardiologist.jpg">
-<p>Cardiologist</p>
-</div>
-
-<div class="cat">
-<img src="images/neurologist.jpg">
-<p>Neurologist</p>
-</div>
+  <!-- DOCTOR LIST -->
+  <h3 id="title">Recommended Doctors</h3>
+  <div id="doctorList"></div>
 
 </div>
 
+<!-- BOOKING MODAL -->
+<div id="modal" style="display:none;">
+  <div class="modal-box">
+    <h3 id="docName"></h3>
 
+    <label>Select Date</label>
+    <input type="date" id="date">
 
-<!-- FILTERS -->
+    <label>Available Time Slots</label>
+    <div id="slots"></div>
 
-<div class="filters">
-
-<button>Filters</button>
-<button>Top Rated</button>
-<button>Nearby</button>
-
+    <button onclick="confirmAppointment()">Confirm Appointment</button>
+    <button class="cancel" onclick="closeModal()">Cancel</button>
+  </div>
 </div>
-
-
-
-<h3 class="section-title">Recommended Doctors</h3>
-
-
-
-<!-- DOCTOR CARDS -->
-
-<div class="doctor-card">
-
-<img src="https://randomuser.me/api/portraits/men/32.jpg">
-
-<div>
-<h3>Dr Rahul Sharma</h3>
-<p>Cardiologist</p>
-<span class="rating">⭐ 4.8</span>
-</div>
-
-</div>
-
-
-
-<div class="doctor-card">
-
-<img src="https://randomuser.me/api/portraits/women/45.jpg">
-
-<div>
-<h3>Dr Ananya Patel</h3>
-<p>Dentist</p>
-<span class="rating">⭐ 4.6</span>
-</div>
-
-</div>
-
-
-
-<div class="doctor-card">
-
-<img src="https://randomuser.me/api/portraits/men/64.jpg">
-
-<div>
-<h3>Dr Kiran Kumar</h3>
-<p>Dermatologist</p>
-<span class="rating">⭐ 4.9</span>
-</div>
-
-</div>
-
-</div>
-
-
-
-<!-- BOTTOM NAV -->
 
 <div class="nav">
-
-<div class="nav-item active">
-<span class="material-icons">home</span>
+  <div>🏠</div>
+  <div>🔍</div>
+  <div>📅</div>
+  <div>👤</div>
 </div>
 
-<div class="nav-item">
-<span class="material-icons">search</span>
+<!-- ✅ SUCCESS POPUP (CORRECT PLACE) -->
+<div id="successPopup" style="display:none;">
+  <div class="success-box">
+    <div class="check">✔️</div>
+    <h3>Appointment Confirmed</h3>
+    <p id="successText"></p>
+    <button onclick="closeSuccess()">Done</button>
+  </div>
 </div>
 
-<div class="nav-item">
-<span class="material-icons">calendar_month</span>
-</div>
-
-<div class="nav-item">
-<span class="material-icons">person</span>
-</div>
-
-</div>
-
-
-
-<script>
-
-function toggleSettings(){
-
-let menu=document.getElementById("settingsMenu");
-
-menu.style.display =
-menu.style.display==="block" ? "none" : "block";
-
-}
-
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
